@@ -6,6 +6,7 @@ import { Creator } from "../collection/Creator";
 import { Artwork as ArtworkType, Tour as TourType, Creator as CreatorType } from "../../app/types";
 import { Redirect } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
+import { Masonry } from "@mui/lab";
 
 export function Favorites() {
     const { data, isError, isLoading, isFetching } = useGetUserFavoritesQuery({ skipToken: true });
@@ -35,19 +36,23 @@ export function Favorites() {
             </Box>);
     }
     return (
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ ml: 2, mr: 2 }}>
             {favoriteArtworks.length !== 0 &&
-                <Grid container spacing={1} sx={{ display: 'flex', alignContent: 'center', flexDirection: "column", mb: 2 }}>
+                <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column", mb: 2, width: '100%' }}>
                     <Divider>
                         <Typography gutterBottom variant="h6" component="div">
                             Favorite Artworks
                         </Typography>
                     </Divider>
-                    {favoriteArtworks.map((artwork: ArtworkType) => <Grid key={artwork.artworkId} item><Artwork artwork={artwork} /></Grid>)}
+                    <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }} sx={{ display: 'flex', alignContent: 'center' }}  >
+                        {favoriteArtworks ? favoriteArtworks.map((artwork: ArtworkType, index: number) => (<Artwork artwork={artwork} key={artwork.artworkId} />))
+                            : <Box src="https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png" component="img" />
+                        }
+                    </Masonry>
                 </Grid>
             }
             {favoriteCreators.length !== 0 &&
-                <Grid container spacing={1} sx={{ display: 'flex', alignContent: 'center', flexDirection: "column", mb: 2 }}>
+                <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column", mb: 2 }}>
                     <Divider>
                         <Typography gutterBottom variant="h6" component="div">
                             Favorite Creators
@@ -57,7 +62,7 @@ export function Favorites() {
                 </Grid >
             }
             {favoriteTours.length !== 0 &&
-                <Grid container spacing={1} sx={{ display: 'flex', alignContent: 'center', flexDirection: "column", mb: 2 }}>
+                <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column", mb: 2 }}>
                     <Divider>
                         <Typography gutterBottom variant="h6" component="div">
                             Favorite Tours

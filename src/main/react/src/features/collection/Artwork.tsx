@@ -1,4 +1,4 @@
-import { Artwork as ArtworkType } from "../../app/types";
+import { Artwork as ArtworkType, Tour } from "../../app/types";
 import {
     Box, Button, Card, CardActions, CardContent, CardMedia, Chip, IconButton, Typography, DialogContent,
     DialogActions, DialogTitle, Dialog, RadioGroup, FormLabel, FormControl, Snackbar, FormControlLabel, FormHelperText, Radio, Tooltip
@@ -6,13 +6,11 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useAppSelector } from "../../app/hooks";
-import { useState } from 'react';
-import green from '../../img/img1.jpg';
-import orange from '../../img/img2.jpg';
-import purple from '../../img/img3.jpg';
-
+import { useEffect, useState } from 'react';
 import { useAddToTourMutation, useFavoriteArtworkMutation, useDeleteFavoriteArtworkMutation, useGetUserFavoritesQuery, useGetToursForUserQuery } from '../../services/api';
+import images_urls from "../../data/images_urls";
 interface ArtworkProps {
+    key: string,
     artwork: ArtworkType;
 }
 
@@ -20,10 +18,8 @@ interface ArtworkProps {
 export function Artwork(props: ArtworkProps) {
     const { artwork } = props;
     const { isLoggedIn } = useAppSelector(state => state.auth);
-
-    const images = [orange, purple, green];
-
     const [open, setOpen] = useState(false);
+    const [image, setImage] = useState("");
     const [tourId, setTourId] = useState(0);
     const { data: tours } = useGetToursForUserQuery();
 
@@ -38,18 +34,32 @@ export function Artwork(props: ArtworkProps) {
     };
 
     const artworkInTour = (tourId: number | null, artworkId: string) => {
-        const tour = tours?.find(tour => tour.tourId === tourId);
-        const artwork = tour?.artworks.find(artwork => artwork.artworkId === artworkId);
+        const tour = tours?.find((tour: { tourId: number | null; }) => tour.tourId === tourId);
+        const artwork = tour?.artworks.find((artwork: { artworkId: string; }) => artwork.artworkId === artworkId);
         return artwork ? true : false;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        const id = artwork.artworkId;
+        const image_object = images_urls[`${id}`];
+        if (!image_object) {
+            console.log('no image for id', artwork.artworkId);
+            // setImage("https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png");
+        }
+        if (image_object) {
+            setImage(image_object.images[0]);
+        }
+
+    });
 
     return (
         <>
             <Card variant="elevation" sx={{ pb: 2, maxWidth: 400 }}>
                 <CardMedia
                     component="img"
-                    sx={{ width: '100%', height: 175 }}
-                    image={images[Math.floor(Math.random() * 3)]}
+                    sx={{ width: '100%' }}
+                    image={image}
+                    alt={artwork && artwork.title ? artwork.title : "artwork image"}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent >
@@ -71,8 +81,8 @@ export function Artwork(props: ArtworkProps) {
                         </Typography>
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', pl: 1, pb: 1, gap: 2 }}>
-                        {artwork.medium && <Chip color="info" label={artwork.medium} sx={{maxWidth: '98%'}} />}
-                        {artwork.classification && <Chip color="secondary" label={artwork.classification} sx={{maxWidth: '98%'}} />}
+                        {artwork.medium && <Chip color="info" label={artwork.medium} sx={{ maxWidth: '98%' }} />}
+                        {artwork.classification && <Chip color="secondary" label={artwork.classification} sx={{ maxWidth: '98%' }} />}
                     </Box>
                 </Box>
                 {isLoggedIn &&
@@ -90,9 +100,9 @@ export function Artwork(props: ArtworkProps) {
                             <FormLabel sx={{ mb: 1 }} component="legend">Choose which tour you'd like to add this artwork to</FormLabel>
                             <RadioGroup
                                 value={tourId}
-                                onChange={event => setTourId(parseInt(event.target.value))}
+                                onChange={(event: { target: { value: string; }; }) => setTourId(parseInt(event.target.value))}
                             >
-                                {tours?.map(tour => (
+                                {tours?.map((tour: Tour, index: number) => (
                                     <>
                                         <FormControlLabel value={tour.tourId} control={<Radio />} label={tour.tourName?.replace(/['"]+/g, '')} disabled={artworkInTour(tour.tourId, artwork.artworkId)} />
                                         {artworkInTour(tour.tourId, artwork.artworkId) &&

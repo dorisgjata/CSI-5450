@@ -2,9 +2,8 @@ import { Artwork } from "../../app/types";
 import { Box, Typography, Grid } from "@mui/material";
 import { FavoriteButton } from "../collection/Artwork";
 import { useAppSelector } from "../../app/hooks";
-import green from '../../img/img1.jpg';
-import orange from '../../img/img2.jpg';
-import purple from '../../img/img3.jpg';
+import images_urls from "../../data/images_urls";
+import { useEffect, useState } from "react";
 
 interface TourCardProps {
     artwork: Artwork;
@@ -15,7 +14,7 @@ interface TourCardProps {
 export function TourCard(props: TourCardProps) {
     const { artwork } = props;
     const { isLoggedIn } = useAppSelector(state => state.auth);
-    const images = [orange, purple, green];
+    const [image, setImage] = useState("");
     const onView = artwork.location.physicalLocation === 'Not on View';
     const unknown = artwork.location.physicalLocation === 'Unknown';
     if (onView || unknown) {
@@ -27,7 +26,19 @@ export function TourCard(props: TourCardProps) {
             </Box>
         )
     }
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/rules-of-hooks
+    useEffect(() => {
+        const id = artwork.artworkId;
+        const image_object = images_urls[`${id}`];
+        if (!image_object) {
+            setImage("https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png");
+        }
+        if (image_object) {
+            setImage(image_object.images[0]);
+        }
+
+    });
+
     return (
         <Grid>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -46,13 +57,21 @@ export function TourCard(props: TourCardProps) {
                     </Box>
                 </Box>
                 <Box
-                    component="img"
                     sx={{
-                        height: 200,
-                        width: '100%'
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}
-                    src={images[Math.floor(Math.random() * 3)]}
-                />
+                >
+                    <Box
+                        sx={{
+                            height: 300,
+                            width: 'auto',
+                        }}
+                        component="img"
+                        src={image}
+                    />
+                </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant="h6" color="text.primary" component="div"  >
                         About the artwork
