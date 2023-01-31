@@ -3,7 +3,8 @@
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `art_tour_db` ;
 CREATE SCHEMA IF NOT EXISTS `art_tour_db` DEFAULT CHARACTER SET utf8 ;
-USE `art_tour_db` ;
+CREATE SCHEMA IF NOT EXISTS `art_tour_db` ;
+USE `art_tour_db`;
 
 
 -- -----------------------------------------------------
@@ -58,6 +59,12 @@ CREATE TABLE IF NOT EXISTS `art_tour_db`.`artwork` (
   `classification` VARCHAR(50) NULL,
   `location_id` INT NOT NULL,
   PRIMARY KEY (`artwork_id`),
+  FULLTEXT(
+    title,
+    medium,
+    credit_line,
+    classification,
+  ),
   CONSTRAINT `fk_artwork_location1`
     FOREIGN KEY (`location_id`)
     REFERENCES `art_tour_db`.`location` (`location_id`)

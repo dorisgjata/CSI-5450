@@ -34,16 +34,11 @@ import { useUpdateTourMutation, useDeleteTourMutation, useFavoriteTourMutation, 
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import green from '../../img/img1.jpg';
-import orange from '../../img/img2.jpg';
-import purple from '../../img/img3.jpg';
+import images_urls from "../../data/images_urls";
 
 export function Tour(props: { tour: TourType; isPublic: boolean; }) {
     const { tour, isPublic } = props;
     const { isLoggedIn } = useAppSelector(state => state.auth);
-
-    const images = [orange, purple, green];
-
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = tour.artworks.length;
     const handleNext = () => {
@@ -101,13 +96,21 @@ export function Tour(props: { tour: TourType; isPublic: boolean; }) {
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <Box>
                                         <Box
-                                            component="img"
                                             sx={{
-                                                height: 200,
-                                                width: '100%'
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
                                             }}
-                                            src={images[Math.floor(Math.random() * 3)]}
-                                        />
+                                        >
+                                            <Box
+                                                sx={{
+                                                    height: 400,
+                                                    width: 'auto',
+                                                }}
+                                                component="img"
+                                                src={images_urls[artwork.artworkId] && images_urls[artwork.artworkId].images[0]}
+                                            />
+                                        </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'center', float: 'right', mt: '-7%', mr: '5%' }}>
                                             <Fab component={Link}
                                                 color='primary'
