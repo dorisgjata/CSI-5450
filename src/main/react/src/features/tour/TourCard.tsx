@@ -67,6 +67,7 @@ export function TourCard(props: TourCardProps) {
                         sx={{
                             height: 300,
                             width: 'auto',
+                            maxWidth: 350
                         }}
                         component="img"
                         src={image}
