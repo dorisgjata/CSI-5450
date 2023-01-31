@@ -59,7 +59,7 @@ export function Artwork(props: ArtworkProps) {
                     component="img"
                     sx={{ width: '100%' }}
                     image={image}
-                    alt={artwork && artwork.title ? artwork.title : "artwork image"}
+                    aria-label={artwork && artwork.title ? artwork.title : "artwork image"}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent >
