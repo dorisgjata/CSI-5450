@@ -6,13 +6,11 @@ import edu.oakland.arttour.model.Creator;
 import edu.oakland.arttour.model.Favorite;
 import edu.oakland.arttour.model.Location;
 import edu.oakland.arttour.model.Tour;
-import edu.oakland.arttour.model.User;
 import edu.oakland.arttour.service.*;
 import edu.oakland.soffit.auth.AuthService;
 import edu.oakland.soffit.auth.SoffitAuthException;
 
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -37,22 +35,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArtTourController {
 
   private final Logger log = LoggerFactory.getLogger("arttour");
-  @Autowired
-  private ArtworkService artworkService;
-  @Autowired
-  private CreatorService creatorService;
-  @Autowired
-  private FavoriteService favoriteService;
-  @Autowired
-  private LocationService locationService;
-  @Autowired
-  private TourService tourService;
-  @Autowired
-  private UserService userService;
-  @Autowired
-  private UserDAO userDao;
-  @Autowired
-  private AuthService authorizer;
+  @Autowired private ArtworkService artworkService;
+  @Autowired private CreatorService creatorService;
+  @Autowired private FavoriteService favoriteService;
+  @Autowired private LocationService locationService;
+  @Autowired private TourService tourService;
+  @Autowired private UserService userService;
+  @Autowired private UserDAO userDao;
+  @Autowired private AuthService authorizer;
 
   ////////// error handling //////////
 
@@ -64,7 +54,7 @@ public class ArtTourController {
   }
 
   @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Illegal Arguments given")
-  @ExceptionHandler({ IllegalArgumentException.class, DataAccessException.class })
+  @ExceptionHandler({IllegalArgumentException.class, DataAccessException.class})
   public void illegalArgumentError(Exception e) {
     log.error("Throwing Illegal Argument or Data Access error", e);
   }
@@ -269,7 +259,8 @@ public class ArtTourController {
   public void addToTour(
       HttpServletRequest request, @PathVariable String tourId, @PathVariable String artworkId)
       throws SoffitAuthException {
-    String email = authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
+    String email =
+        authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
     tourService.addToTour(tourId, artworkId);
   }
 
@@ -278,7 +269,8 @@ public class ArtTourController {
   public void deleteFromTour(
       HttpServletRequest request, @PathVariable String tourId, @RequestBody List<String> artworkIds)
       throws SoffitAuthException {
-    String email = authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
+    String email =
+        authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
     artworkIds.stream().forEach(artworkId -> tourService.deleteFromTour(tourId, artworkId));
   }
 
@@ -287,39 +279,35 @@ public class ArtTourController {
   public void updateTour(
       HttpServletRequest request, @RequestBody Tour tour, @PathVariable String tourId)
       throws SoffitAuthException {
-    String email = authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
+    String email =
+        authorizer.getClaimFromJWT(request, "email").asString(); // just to check if token is valid
     tourService.updateTour(tour);
   }
 
-  ////////// general user //////////
-  @CrossOrigin
-  @PostMapping("user/register")
-  public Map<String, String> registerUser(@RequestBody Map<String, String> user) {
-    return userService.registerUser(user);
-  }
+  // @CrossOrigin
+  // @GetMapping("user/{email}/")
+  // public Map<String, String> login(@PathVariable String email) {
+  // return userService.login(email);
+  // }
 
-  @CrossOrigin
-  @GetMapping("user/{email}/")
-  public Map<String, String> login(@PathVariable String email) {
-    return userService.login(email);
-  }
+  // @CrossOrigin
+  // @PostMapping("user/{userEmail}/removal")
+  // public void deleteUser(HttpServletRequest request, @PathVariable String
+  // userEmail)
+  // throws SoffitAuthException {
+  // String email = authorizer.getClaimFromJWT(request, "email").asString();
+  // userService.checkAdmin(email);
+  // userService.deleteUser(userEmail);
+  // }
 
-  @CrossOrigin
-  @PostMapping("user/{userEmail}/removal")
-  public void deleteUser(HttpServletRequest request, @PathVariable String userEmail)
-      throws SoffitAuthException {
-    String email = authorizer.getClaimFromJWT(request, "email").asString();
-    userService.checkAdmin(email);
-    userService.deleteUser(userEmail);
-  }
-
-  // todo:check why it's using dao here
-  @CrossOrigin
-  @PostMapping("user")
-  public User updateUser(HttpServletRequest request, @RequestBody User userInfo)
-      throws SoffitAuthException {
-    String email = authorizer.getClaimFromJWT(request, "email").asString();
-    userService.updateUser(email, userInfo);
-    return userDao.login(email);
-  }
+  // // todo:check why it's using dao here
+  // @CrossOrigin
+  // @PostMapping("user")
+  // public User updateUser(HttpServletRequest request, @RequestBody User
+  // userInfo)
+  // throws SoffitAuthException {
+  // String email = authorizer.getClaimFromJWT(request, "email").asString();
+  // userService.updateUser(userInfo);
+  // return userDao.login(email);
+  // }
 }

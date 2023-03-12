@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArtworkService {
 
-  @Autowired
-  private ArtworkDAO dao;
+  @Autowired private ArtworkDAO dao;
 
   public void addArtwork(Artwork artwork) throws Exception {
     // The dataset comes with ids for the artwork so we could have them input it in
@@ -57,8 +56,7 @@ public class ArtworkService {
       throw new Exception("Creator not found");
     }
 
-    dao.updateArtwork(
-        updatedArtwork);
+    dao.updateArtwork(updatedArtwork);
   }
 
   // todo: update offset, add extra params

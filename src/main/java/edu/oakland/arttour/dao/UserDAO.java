@@ -1,21 +1,21 @@
 package edu.oakland.arttour.dao;
 
 import edu.oakland.arttour.model.User;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class UserDAO {
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   public void registerUser(String email, String fname, String lname, String password) {
-    jdbcTemplate.update(Constants.REGISTER_USER, new Object[] { email, fname, lname, password });
+    jdbcTemplate.update(Constants.REGISTER_USER, new Object[] {email, fname, lname, password});
   }
 
   public void addConsumer(String email) {
@@ -44,7 +44,7 @@ public class UserDAO {
   }
 
   public void updateUser(String email, String fname, String lname, String password) {
-    jdbcTemplate.update(Constants.UPDATE_USER, new Object[] { email, fname, lname, password });
+    jdbcTemplate.update(Constants.UPDATE_USER, new Object[] {email, fname, lname, password});
   }
 
   public void deleteUser(String email) {

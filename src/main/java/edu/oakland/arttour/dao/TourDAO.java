@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TourDAO {
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   public void createTour(Tour tour) {
-    jdbcTemplate.update(Constants.CREATE_TOUR, tour.getTourId(), tour.getTourName(), tour.getEmail());
+    jdbcTemplate.update(
+        Constants.CREATE_TOUR, tour.getTourId(), tour.getTourName(), tour.getEmail());
   }
 
   public void addToTour(String tourId, String artworkId) {
@@ -46,5 +46,4 @@ public class TourDAO {
   public void updateTour(Tour tour) {
     jdbcTemplate.update(Constants.UPDATE_TOUR, tour.getTourId(), tour.getTourName());
   }
-
 }

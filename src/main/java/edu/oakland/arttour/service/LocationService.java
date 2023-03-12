@@ -5,7 +5,6 @@ import edu.oakland.arttour.model.Location;
 import edu.oakland.arttour.util.UniqueIdGenerator;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocationService {
 
-  @Autowired
-  private LocationDAO dao;
+  @Autowired private LocationDAO dao;
 
   public void addLocation(Location location) {
     if (location.getLocationId() == null) {
@@ -43,5 +41,4 @@ public class LocationService {
   public void deleteLocation(String locationId) {
     dao.deleteLocation(locationId);
   }
-
 }

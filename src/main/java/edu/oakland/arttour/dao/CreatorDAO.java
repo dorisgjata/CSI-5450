@@ -12,11 +12,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CreatorDAO {
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
-  public void addCreator(
-      Creator creator) {
+  public void addCreator(Creator creator) {
     jdbcTemplate.update(
         Constants.ADD_CREATOR,
         creator.getCreatorId(),
@@ -30,8 +28,7 @@ public class CreatorDAO {
         creator.getDeathPlace());
   }
 
-  public void updateCreator(
-      Creator creator) throws DataAccessException {
+  public void updateCreator(Creator creator) throws DataAccessException {
     jdbcTemplate.update(
         Constants.UPDATE_CREATOR,
         creator.getCreatorId(),
@@ -52,5 +49,4 @@ public class CreatorDAO {
   public void deleteCreator(String creatorId) throws DataIntegrityViolationException {
     jdbcTemplate.update(Constants.DELETE_CREATOR, creatorId);
   }
-
 }

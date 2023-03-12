@@ -10,15 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FavoriteDAO {
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   public void favoriteArtwork(String email, String artworkId) {
     jdbcTemplate.update(Constants.FAVORITE_ARTWORK, email, artworkId);
   }
 
-  public void favoriteCreator(String email, String creatorId) {
-  }
+  public void favoriteCreator(String email, String creatorId) {}
 
   public void favoriteTour(String email, String tourId) {
     jdbcTemplate.update(Constants.FAVORITE_TOUR, email, tourId);
@@ -47,5 +45,4 @@ public class FavoriteDAO {
   public void deleteFavoriteTour(String email, String tourId) {
     jdbcTemplate.update(Constants.DELETE_FAVORITE_TOUR, email, tourId);
   }
-
 }

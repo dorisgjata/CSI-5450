@@ -2,9 +2,9 @@ package edu.oakland.arttour.service;
 
 import edu.oakland.arttour.dao.FavoriteDAO;
 import edu.oakland.arttour.model.Artwork;
-import edu.oakland.arttour.model.Tour;
-import edu.oakland.arttour.model.Favorite;
 import edu.oakland.arttour.model.Creator;
+import edu.oakland.arttour.model.Favorite;
+import edu.oakland.arttour.model.Tour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class FavoriteService {
 
-  @Autowired
-  private FavoriteDAO dao;
+  @Autowired private FavoriteDAO dao;
 
-  @Autowired
-  private ArtworkService artworkService;
+  @Autowired private ArtworkService artworkService;
 
-  @Autowired
-  private CreatorService creatorService;
+  @Autowired private CreatorService creatorService;
 
-  @Autowired
-  private TourService tourService;
+  @Autowired private TourService tourService;
 
   public void favoriteArtwork(String email, String artworkId) {
     dao.favoriteArtwork(email, artworkId);
@@ -96,5 +92,4 @@ public class FavoriteService {
   public void deleteFavoriteTour(String email, String tourId) {
     dao.deleteFavoriteTour(email, tourId);
   }
-
 }

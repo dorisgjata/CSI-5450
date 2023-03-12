@@ -13,11 +13,12 @@ public class Location {
   private String department;
   private String physicalLocation;
 
-  public static RowMapper<Location> mapper = (rs, rowNum) -> {
-    Location location = new Location();
-    location.setLocationId(rs.getString("location_id"));
-    location.setDepartment(rs.getString("department"));
-    location.setPhysicalLocation(rs.getString("physical_location"));
-    return location;
-  };
+  public static RowMapper<Location> mapper =
+      (rs, rowNum) -> {
+        Location location = new Location();
+        location.setLocationId(rs.getString("location_id"));
+        location.setDepartment(rs.getString("department"));
+        location.setPhysicalLocation(rs.getString("physical_location"));
+        return location;
+      };
 }

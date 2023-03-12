@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ArtworkDAO {
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   public void addArtwork(Artwork artwork) {
     jdbcTemplate.update(
@@ -38,24 +37,23 @@ public class ArtworkDAO {
   public void updateArtwork(Artwork artwork) {
     jdbcTemplate.update(
         Constants.UPDATE_ARTWORK,
-            artwork.getArtworkId(),
-            artwork.getTitle(),
-            artwork.getCreationDate(),
-            artwork.getMedium(),
-            artwork.getCreditLine(),
-            artwork.getDateAcquired(),
-            artwork.getItemWidth(),
-            artwork.getItemHeight(),
-            artwork.getItemDepth(),
-            artwork.getItemDiameter(),
-            artwork.getProvenanceText(),
-            artwork.getClassification(),
-            artwork.getLocation().getLocationId()
-        );
+        artwork.getArtworkId(),
+        artwork.getTitle(),
+        artwork.getCreationDate(),
+        artwork.getMedium(),
+        artwork.getCreditLine(),
+        artwork.getDateAcquired(),
+        artwork.getItemWidth(),
+        artwork.getItemHeight(),
+        artwork.getItemDepth(),
+        artwork.getItemDiameter(),
+        artwork.getProvenanceText(),
+        artwork.getClassification(),
+        artwork.getLocation().getLocationId());
   }
 
   public void addArtworkAndCreator(String artworkId, String creatorId) {
-    jdbcTemplate.update(Constants.ADD_ARTWORK_AND_CREATOR, artworkId, creatorId );
+    jdbcTemplate.update(Constants.ADD_ARTWORK_AND_CREATOR, artworkId, creatorId);
   }
 
   public List<Artwork> getCollection(int page) throws DataAccessException {
@@ -73,5 +71,4 @@ public class ArtworkDAO {
   public void deleteArtwork(String artworkId) {
     jdbcTemplate.update(Constants.DELETE_ARTWORK, artworkId);
   }
-
 }

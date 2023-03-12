@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  @Autowired
-  private UserDAO dao;
+  @Autowired private UserDAO dao;
 
   @Value("${org.apereo.portal.soffit.jwt.signatureKey}")
   private String SECRET;
@@ -34,11 +33,12 @@ public class UserService {
       dao.registerUser(email, fname, lname, password);
       dao.addConsumer(email);
 
-      String jws = Jwts.builder()
-          .setIssuer("Soffit")
-          .claim("email", email)
-          .signWith(SignatureAlgorithm.HS256, SECRET)
-          .compact();
+      String jws =
+          Jwts.builder()
+              .setIssuer("Soffit")
+              .claim("email", email)
+              .signWith(SignatureAlgorithm.HS256, SECRET)
+              .compact();
       userInfo.put("token", jws);
       userInfo.put("email", email);
       userInfo.put("fname", fname);
@@ -79,11 +79,12 @@ public class UserService {
     Map<String, String> loginInfo = new HashMap<>();
     try {
       User user = dao.login(email);
-      String jws = Jwts.builder()
-          .setIssuer("Soffit")
-          .claim("email", user.getEmail())
-          .signWith(SignatureAlgorithm.HS256, SECRET)
-          .compact();
+      String jws =
+          Jwts.builder()
+              .setIssuer("Soffit")
+              .claim("email", user.getEmail())
+              .signWith(SignatureAlgorithm.HS256, SECRET)
+              .compact();
       loginInfo.put("token", jws);
       loginInfo.put("email", user.getEmail());
       loginInfo.put("fname", user.getFname());
@@ -111,5 +112,4 @@ public class UserService {
   public void deleteUser(String email) {
     dao.deleteUser(email);
   }
-
 }
