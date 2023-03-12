@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Creator {
-  private int creatorId;
+  private String creatorId;
   private String fullName;
   private String citedName;
   private String role;
@@ -19,18 +19,17 @@ public class Creator {
   private String birthPlace;
   private String deathPlace;
 
-  public static RowMapper<Creator> mapper =
-      (rs, rowNum) -> {
-        Creator creator = new Creator();
-        creator.setCreatorId(rs.getInt("creator_id"));
-        creator.setFullName(rs.getString("full_name"));
-        creator.setCitedName(rs.getString("cited_name"));
-        creator.setRole(rs.getString("role"));
-        creator.setNationality(rs.getString("nationality"));
-        creator.setBirthDate(rs.getString("birth_date"));
-        creator.setDeathDate(rs.getString("death_date"));
-        creator.setBirthPlace(rs.getString("birth_place"));
-        creator.setDeathPlace(rs.getString("death_place"));
-        return creator;
-      };
+  public static RowMapper<Creator> mapper = (rs, rowNum) -> {
+    Creator creator = new Creator();
+    creator.setCreatorId(rs.getString("creator_id"));
+    creator.setFullName(rs.getString("full_name"));
+    creator.setCitedName(rs.getString("cited_name"));
+    creator.setRole(rs.getString("role"));
+    creator.setNationality(rs.getString("nationality"));
+    creator.setBirthDate(rs.getString("birth_date"));
+    creator.setDeathDate(rs.getString("death_date"));
+    creator.setBirthPlace(rs.getString("birth_place"));
+    creator.setDeathPlace(rs.getString("death_place"));
+    return creator;
+  };
 }

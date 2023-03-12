@@ -9,18 +9,18 @@ import org.springframework.jdbc.core.RowMapper;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+  // todo: add -> private String uuid;
   private String email;
   private String fname;
   private String lname;
   private String password;
 
-  public static RowMapper<User> mapper =
-      (rs, rowNum) -> {
-        User user = new User();
-        user.setEmail(rs.getString("email"));
-        user.setFname(rs.getString("fname"));
-        user.setLname(rs.getString("lname"));
-        user.setPassword(rs.getString("password"));
-        return user;
-      };
+  public static RowMapper<User> mapper = (rs, rowNum) -> {
+    User user = new User();
+    user.setEmail(rs.getString("email"));
+    user.setFname(rs.getString("fname"));
+    user.setLname(rs.getString("lname"));
+    user.setPassword(rs.getString("password"));
+    return user;
+  };
 }

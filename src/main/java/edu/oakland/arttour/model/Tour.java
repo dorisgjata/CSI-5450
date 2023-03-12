@@ -8,6 +8,6 @@ import lombok.Data;
 public class Tour {
   private String email;
   private String tourName;
-  private int tourId;
+  private String tourId;
   private List<Artwork> artworks;
 }

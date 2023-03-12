@@ -13,7 +13,7 @@ USE `art_tour_db`;
 DROP TABLE IF EXISTS `art_tour_db`.`creator` ;
 
 CREATE TABLE IF NOT EXISTS `art_tour_db`.`creator` (
-  `creator_id` INT NOT NULL AUTO_INCREMENT,
+  `creator_id` VARCHAR(50) NOT NULL,
   `full_name` TEXT NOT NULL,
   `cited_name` TEXT NOT NULL,
   `role` TEXT NULL,
@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `art_tour_db`.`location` ;
 
 CREATE TABLE IF NOT EXISTS `art_tour_db`.`location` (
-  `location_id` INT NOT NULL AUTO_INCREMENT,
+  `location_id` VARCHAR(50),
   `department` VARCHAR(50) NULL,
   `physical_location` VARCHAR(50) NULL,
   PRIMARY KEY (`location_id`))
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `art_tour_db`.`artwork` (
   `item_diameter` DOUBLE NULL,
   `provenance_text` TEXT NULL,
   `classification` VARCHAR(50) NULL,
-  `location_id` INT NOT NULL,
+  `location_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`artwork_id`),
   FULLTEXT(
     title,
@@ -134,7 +134,7 @@ DROP TABLE IF EXISTS `art_tour_db`.`artwork_has_creator` ;
 
 CREATE TABLE IF NOT EXISTS `art_tour_db`.`artwork_has_creator` (
   `artwork_id` VARCHAR(50) NOT NULL,
-  `creator_id` INT NOT NULL,
+  `creator_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`artwork_id`, `creator_id`),
   CONSTRAINT `fk_artwork_has_creator_artwork`
     FOREIGN KEY (`artwork_id`)
@@ -158,7 +158,7 @@ CREATE INDEX `fk_artwork_has_creator_artwork_idx` ON `art_tour_db`.`artwork_has_
 DROP TABLE IF EXISTS `art_tour_db`.`tour_has_artwork` ;
 
 CREATE TABLE IF NOT EXISTS `art_tour_db`.`tour_has_artwork` (
-  `tour_id` INT NOT NULL,
+  `tour_id` VARCHAR(50) NOT NULL,
   `artwork_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`tour_id`, `artwork_id`),
   CONSTRAINT `fk_tour_has_artwork_tour1`
@@ -252,7 +252,7 @@ DROP TABLE IF EXISTS `art_tour_db`.`consumer_favorites_creator` ;
 
 CREATE TABLE IF NOT EXISTS `art_tour_db`.`consumer_favorites_creator` (
   `email` VARCHAR(100) NOT NULL,
-  `creator_id` INT NOT NULL,
+  `creator_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`email`, `creator_id`),
   CONSTRAINT `fk_consumer_has_creator_consumer1`
     FOREIGN KEY (`email`)
